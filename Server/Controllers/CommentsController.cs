@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers
 {
-    [Authorize]
     public class CommentsController : BaseApiController
     {
         private readonly ICommentService _commentService;
@@ -18,9 +17,7 @@ namespace Server.Controllers
         [HttpGet("{uid}")]
         public async Task<IActionResult> GetComment([FromRoute] Guid uid)
         {
-
             var result = await _commentService.GetCommentByIdAsync(uid);
-
             return ApiOk(result);
         }
 
@@ -28,13 +25,12 @@ namespace Server.Controllers
         [HttpGet("post/{id}")]
         public async Task<IActionResult> GetCommentsWithRepliesAsync([FromRoute] int id)
         {
-
             var result = await _commentService.GetCommentsWithRepliesAsync(id);
-
             return ApiOk(result);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateCommentDto dto)
         {
 
@@ -54,6 +50,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{uid}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] Guid uid, [FromBody] UpdateCommentDto dto)
         {
 
