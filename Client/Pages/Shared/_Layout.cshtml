@@ -75,11 +75,25 @@
                             <li class="nav-item">
                                 <a class="nav-link nav-link-custom" asp-page="/Blog/Create">Create Post</a>
                             </li>
-                            <li class="nav-item align-self-center ms-lg-2">
-                                <a class="btn-primary-custom text-decoration-none" asp-page="/Auth/Profile">@User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item align-self-center ms-lg-2">
-                                <a class="btn btn-outline-danger btn-sm rounded-pill px-3" asp-page="/Auth/Logout">Logout</a>
+                            <li class="nav-item dropdown ms-lg-3">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-0" href="#" id="navbarProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(User.Identity?.Name ?? "User")&background=4f46e5&color=fff" 
+                                         class="rounded-circle" style="width: 35px; height: 35px; border: 2px solid var(--white); shadow: var(--shadow-sm);" alt="Profile">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-lg mt-2 p-2" aria-labelledby="navbarProfileDropdown" style="min-width: 240px;">
+                                    <li class="px-3 py-2 border-bottom mb-2">
+                                        <div class="fw-bold text-dark">@User.Identity?.Name</div>
+                                        <div class="small text-muted">@User.FindFirstValue(System.Security.Claims.ClaimTypes.Email)</div>
+                                    </li>
+                                    <li><a class="dropdown-item rounded-md py-2" asp-page="/Auth/Profile">My Profile</a></li>
+                                    <li><a class="dropdown-item rounded-md py-2" asp-page="/Blog/Index">My Posts</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item rounded-md py-2 text-danger fw-bold" asp-page="/Auth/Logout">
+                                            Logout
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                     </ul>
