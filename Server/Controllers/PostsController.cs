@@ -21,11 +21,11 @@ namespace Server.Controllers
             [FromQuery] PaginationParams paginationParams,
             [FromQuery] string? search = null,
             [FromQuery] string? sortBy = null,
-            [FromQuery] string? sortDirection = "desc"
-
+            [FromQuery] string? sortDirection = "desc",
+            [FromQuery] int? authorId = null
             )
         {
-            var result = await _postService.GetAllPostsAsync(paginationParams, search, sortBy, sortDirection);
+            var result = await _postService.GetAllPostsAsync(paginationParams, search, sortBy, sortDirection, authorId);
 
             return ApiOk(result, "Posts Fetched Successfully.");
         }

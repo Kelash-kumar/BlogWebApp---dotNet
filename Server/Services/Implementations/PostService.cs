@@ -60,10 +60,11 @@ namespace Server.Services.Implementations
             PaginationParams pagination,
             string? search = null,
             string? sortBy = "createdAt",
-            string? sortDirection = "desc"
+            string? sortDirection = "desc",
+            int? authorId = null
         )
         {
-            var (posts, totalRecords) = await _postRepository.GetAllPostsAsync(pagination, search, sortBy, sortDirection);
+            var (posts, totalRecords) = await _postRepository.GetAllPostsAsync(pagination, search, sortBy, sortDirection, authorId);
             var postDtos = posts.Select(p => MapPostResponseDtos(p)!).ToList();
 
             return new PagedResult<PostResponseDto>

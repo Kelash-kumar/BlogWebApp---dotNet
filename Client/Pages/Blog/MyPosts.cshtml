@@ -1,0 +1,94 @@
+@page
+@model Client.Pages.Blog.MyPostsModel
+@{
+    ViewData["Title"] = "My Posts";
+}
+
+<section class="hero-section" style="padding: 6rem 0 4rem; background: #f8fafc;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <h1 class="hero-title animate-fade-in" style="text-align: left; background: var(--dark-bg); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">My Content</h1>
+                <p class="hero-subtitle animate-fade-in delay-100" style="text-align: left; margin-left: 0;">Manage your published articles and drafts.</p>
+            </div>
+            <div class="animate-fade-in delay-200 mb-3">
+                <a asp-page="/Blog/Create" class="btn btn-primary-custom">
+                    <i class="bi bi-plus-lg me-2"></i>New Story
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container py-5">
+    @if (Model.Posts.Data != null && Model.Posts.Data.Any())
+    {
+        <div class="table-responsive bg-white rounded-lg shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 border-0">Post Details</th>
+                        <th class="py-3 border-0">Status</th>
+                        <th class="py-3 border-0">Published</th>
+                        <th class="py-3 border-0">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var post in Model.Posts.Data)
+                    {
+                        <tr>
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="@(string.IsNullOrEmpty(post.FeaturedImage) ? "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop" : post.FeaturedImage)" 
+                                         class="rounded me-3" style="width: 60px; height: 40px; object-fit: cover;" alt="Thumbnail">
+                                    <div>
+                                        <a asp-page="/Blog/Details" asp-route-uid="@post.Uid" class="text-dark fw-bold text-decoration-none">@post.Title</a>
+                                        <div class="small text-muted">@(post.Category?.Name ?? "General")</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (post.Status == "Published")
+                                {
+                                    <span class="badge bg-success-soft text-success rounded-pill px-3">Published</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning-soft text-warning rounded-pill px-3">@post.Status</span>
+                                }
+                            </td>
+                            <td class="small text-muted">
+                                @(post.PublishedAt?.ToString("MMM dd, yyyy") ?? "Not yet")
+                            </td>
+                            <td>
+                                <div class="btn-group shadow-sm rounded">
+                                    <a asp-page="/Blog/Edit" asp-route-uid="@post.Uid" class="btn btn-white btn-sm" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-page="/Blog/Details" asp-route-uid="@post.Uid" class="btn btn-white btn-sm" title="View">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <h3>No stories found</h3>
+            <p class="text-muted">You haven't published any stories on InkFlow yet.</p>
+            <a asp-page="/Blog/Create" class="btn btn-primary-custom mt-3">Create Your First Post</a>
+        </div>
+    }
+</div>
+
+<style>
+    .bg-success-soft { background-color: rgba(16, 185, 129, 0.1); }
+    .bg-warning-soft { background-color: rgba(245, 158, 11, 0.1); }
+    .btn-white { background: white; border: 1px solid #e2e8f0; color: #64748b; }
+    .btn-white:hover { background: #f8fafc; color: var(--primary-color); }
+</style>

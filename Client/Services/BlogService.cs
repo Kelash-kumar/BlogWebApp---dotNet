@@ -38,13 +38,14 @@ namespace Client.Services
             }
         }
 
-        public async Task<ApiResponse<PagedResult<PostResponseDto>>> GetPostsAsync(int pageNumber = 1, int pageSize = 10, string? search = null, string? sortBy = null, string sortDirection = "desc")
+        public async Task<ApiResponse<PagedResult<PostResponseDto>>> GetPostsAsync(int pageNumber = 1, int pageSize = 10, string? search = null, string? sortBy = null, string sortDirection = "desc", int? authorId = null)
         {
             try
             {
                 var queryParams = $"?pageNumber={pageNumber}&pageSize={pageSize}&sortDirection={sortDirection}";
                 if (!string.IsNullOrEmpty(search)) queryParams += $"&search={search}";
                 if (!string.IsNullOrEmpty(sortBy)) queryParams += $"&sortBy={sortBy}";
+                if (authorId.HasValue) queryParams += $"&authorId={authorId.Value}";
 
                 var response = await _httpClient.GetAsync($"{_baseUrl}/Posts{queryParams}");
                 var responseBody = await response.Content.ReadAsStringAsync();

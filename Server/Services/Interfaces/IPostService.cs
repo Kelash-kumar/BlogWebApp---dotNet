@@ -11,7 +11,8 @@ namespace Server.Services.Interfaces
             PaginationParams pagination,
             string? search = null,
             string? sortBy = "createdAt",
-            string? sortOrder = "asc"
+            string? sortDirection = "desc",
+            int? authorId = null
             );
         Task<PostResponseDto?> UpdatePost(Guid uid, UpdatePostDto postDto);
         Task<bool> DeletePost(Guid uid);

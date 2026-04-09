@@ -27,12 +27,18 @@ namespace Server.Repositories.Implementations
         PaginationParams paginationParams,
         string? search = null,
         string? sortBy = "createdAt",
-        string? sortDirection = "desc")
+        string? sortDirection = "desc",
+        int? authorId = null)
         {
             var query = _context.Posts
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .AsQueryable();
+
+            if (authorId.HasValue)
+            {
+                query = query.Where(p => p.AuthorId == authorId.Value);
+            }
 
             // Search filter
             if (!string.IsNullOrWhiteSpace(search))

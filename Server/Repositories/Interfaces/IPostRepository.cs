@@ -10,7 +10,8 @@ namespace Server.Repositories.Interfaces
             PaginationParams paginationParams,
             string? search = null,
             string? sortBy = "createdAt",
-            string? sortDirection = "desc"
+            string? sortDirection = "desc",
+            int? authorId = null
             );
         Task<List<string>> GetAllPostSlugsAsync();
         Task<Post?> GetPostByIdAsync(Guid uid);

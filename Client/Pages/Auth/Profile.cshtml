@@ -1,0 +1,77 @@
+@page
+@model Client.Pages.Auth.ProfileModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<section class="hero-section" style="padding: 6rem 0 4rem; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+    <div class="container text-center">
+        <div class="position-relative d-inline-block mb-4">
+            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.Name)&background=fff&color=4f46e5&size=128" 
+                 class="rounded-circle shadow-lg border border-4 border-white animate-fade-in" style="width: 120px; height: 120px;" alt="Profile Large">
+            <span class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle p-2" title="Online"></span>
+        </div>
+        <h1 class="hero-title text-white mb-2 animate-fade-in delay-100">@Model.Name</h1>
+        <p class="text-white opacity-75 animate-fade-in delay-200">@Model.Email</p>
+    </div>
+</section>
+
+<div class="container py-5 mt-n5">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-lg mb-4 animate-fade-in delay-300">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Account Overview</h5>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">User ID</span>
+                        <span class="fw-semibold">#@Model.UserId</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Role</span>
+                        <span class="badge bg-primary-soft text-primary">Content Creator</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Status</span>
+                        <span class="text-success fw-semibold"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
+                    </div>
+                    <hr>
+                    <button class="btn btn-outline-primary w-100 rounded-pill py-2">Edit Basic Info</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-lg animate-fade-in delay-500">
+                <div class="card-header bg-white border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">Recent Activity</h5>
+                        <a asp-page="/Blog/Create" class="btn btn-primary-custom btn-sm">Create New Post</a>
+                    </div>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <div class="text-center py-5">
+                        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" alt="Empty" style="width: 80px; opacity: 0.2;" class="mb-3">
+                        <h6 class="text-muted fw-bold">Ready to start?</h6>
+                        <p class="small text-muted">Manage your content from the Dashboard or create something new.</p>
+                        <a asp-page="/Blog/MyPosts" class="btn btn-link text-primary-color fw-bold">Go to Dashboard &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mt-n5 {
+        margin-top: -3rem !important;
+    }
+    .bg-primary-soft {
+        background-color: rgba(79, 70, 229, 0.1);
+    }
+    .text-primary-color {
+        color: var(--primary-color);
+    }
+    .rounded-lg {
+        border-radius: var(--radius-lg);
+    }
+</style>
