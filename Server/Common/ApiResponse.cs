@@ -6,6 +6,7 @@ namespace Server.Common
         public string Message { get; set; } = string.Empty;
         public T? Data { get; set; }
         public int StatusCode { get; set; }
+        public List<string>? Errors { get; set; }
 
 
         public static ApiResponse<T> Ok(T data, string message = "Request completed successfully.")
@@ -15,7 +16,7 @@ namespace Server.Common
             => new() { Success = true, Message = message, Data = data, StatusCode = 201 };
 
         public static ApiResponse<object> Fail(string message, int statusCode = 400, List<string>? errors = null)
-            => new() { Success = false, Message = message, StatusCode = statusCode, Data = errors ?? new List<string>() };
+            => new() { Success = false, Message = message, StatusCode = statusCode, Data = null, Errors = errors };
 
         public static ApiResponse<object> NotFound(string message = "Resource not found.")
             => Fail(message, 404);

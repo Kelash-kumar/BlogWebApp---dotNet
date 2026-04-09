@@ -69,7 +69,17 @@ namespace Client.Pages.Blog
                 return RedirectToPage("/Blog/Index");
             }
 
-            ModelState.AddModelError(string.Empty, result.Message);
+            if (result.Errors != null && result.Errors.Any())
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+            }
             await LoadCategories();
             return Page();
         }
@@ -103,7 +113,12 @@ namespace Client.Pages.Blog
                 return new JsonResult(new { success = true, message = "Post published successfully!", redirectUrl = Url.Page("/Blog/Index") });
             }
 
-            return new JsonResult(new { success = false, message = result.Message });
+            var errorMessage = result.Message;
+            if (result.Errors != null && result.Errors.Any())
+            {
+                errorMessage = string.Join(" ", result.Errors);
+            }
+            return new JsonResult(new { success = false, message = errorMessage });
         }
     }
 }

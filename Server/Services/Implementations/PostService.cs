@@ -31,14 +31,15 @@ namespace Server.Services.Implementations
             // Create post object
             var post = new Post
             {
-                AuthorId = postDto.AuthorId,
+                AuthorId = postDto.AuthorId ?? 0,
                 CategoryId = postDto.CategoryId,
                 Excerpt = postDto.Excerpt,
                 Slug = slug,
                 Title = postTitle,
                 Content = postDto.Content,
                 FeaturedImage = postDto.FeaturedImage,
-                PublishedAt = postDto.PublishedAt,
+                PublishedAt = postDto.PublishedAt ?? DateTime.UtcNow,
+                Status = Enum.TryParse<PostStatus>(postDto.Status, true, out var status) ? status : PostStatus.Draft
             };
 
                 await _postRepository.CreatePost(post);
@@ -79,19 +80,24 @@ namespace Server.Services.Implementations
             var post = await _postRepository.GetPostByIdAsync(uid);
             if (post == null) throw new NotFoundException("Post Not Found");
 
+            // Generate new slug if title changed (optional but common)
+            if (post.Title != postDto.Title)
+            {
+                var existingSlugs = await _postRepository.GetAllPostSlugsAsync();
+                post.Slug = _slugService.GenerateUnique(postDto.Title, existingSlugs);
+            }
+
             // Update fields
             post.Title = postDto.Title;
             post.Content = postDto.Content;
             post.Excerpt = postDto.Excerpt;
             post.CategoryId = postDto.CategoryId;
             post.FeaturedImage = postDto.FeaturedImage;
+            post.PublishedAt = postDto.PublishedAt ?? post.PublishedAt;
             post.UpdatedAt = DateTime.UtcNow;
-
-            // Generate new slug if title changed (optional but common)
-            if (post.Title != postDto.Title)
+            if (Enum.TryParse<PostStatus>(postDto.Status, true, out var statusUpdate))
             {
-                var existingSlugs = await _postRepository.GetAllPostSlugsAsync();
-                post.Slug = _slugService.GenerateUnique(postDto.Title, existingSlugs);
+                post.Status = statusUpdate;
             }
 
             await _postRepository.UpdatePost(post);
