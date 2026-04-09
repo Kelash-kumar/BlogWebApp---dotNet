@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace AuthDemo.DTOs.UserDTOs
+namespace Server.DTOs.UserDTOs
 {
     public class UserRequestDto
     {

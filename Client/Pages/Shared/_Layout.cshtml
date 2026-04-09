@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BlogAuth.UI</title>
+    <title>@ViewData["Title"] - Client</title>
     
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
     
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/BlogAuth.UI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Client.styles.css" asp-append-version="true" />
     
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -61,7 +61,7 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-custom" asp-area="" asp-page="/Blog/Index">Blog</a>
                         </li>
-                        @if (!User.Identity.IsAuthenticated)
+                        @if (User.Identity?.IsAuthenticated != true)
                         {
                             <li class="nav-item align-self-center ms-lg-2">
                                  <a class="btn-primary-custom text-decoration-none" asp-page="/Auth/Login">Login</a>
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2026 BlogAuth.UI. All rights reserved.
+                &copy; 2026 Client. All rights reserved.
             </div>
         </div>
     </footer>

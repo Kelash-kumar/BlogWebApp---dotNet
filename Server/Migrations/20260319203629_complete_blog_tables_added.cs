@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuthDemo.Migrations
+namespace Server.Migrations
 {
     /// <inheritdoc />
     public partial class complete_blog_tables_added : Migration

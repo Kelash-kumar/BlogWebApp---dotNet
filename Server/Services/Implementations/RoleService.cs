@@ -1,11 +1,11 @@
-﻿using AuthDemo.DTOs.RoleDTOs;
-using AuthDemo.Exceptions;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.RoleDTOs;
+using Server.Exceptions;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class RoleService(IRoleRepository roleRepository) : IRoleService
     {
@@ -24,7 +24,7 @@ namespace AuthDemo.Services.Implementations
             {
                 Uid = Guid.NewGuid(),
                 Name = roleRequestDto.Name,
-                Description = roleRequestDto.Description,
+                Description = roleRequestDto.Description ?? string.Empty,
             };
 
             await _roleRepository.CreateRoleAsync(role);
@@ -73,7 +73,7 @@ namespace AuthDemo.Services.Implementations
             var updatedRole = await _roleRepository.UpdateRoleAsync(uid, new Role
             {
                 Name = roleRequestDto.Name,
-                Description = roleRequestDto.Description
+                Description = roleRequestDto.Description ?? string.Empty
             });
 
             return updatedRole == null ? throw new NotFoundException($"Role with ID {uid} not found.") : MapToRoleResponseDto(updatedRole);

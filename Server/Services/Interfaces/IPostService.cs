@@ -1,19 +1,19 @@
-using AuthDemo.DTOs.PostDtos;
-using AuthDemo.Helpers;
+using Server.DTOs.PostDtos;
+using Server.Helpers;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface IPostService
     {
-        Task<PostResponseDto> CreatePost(CreatePostDto postDto);
-        Task<PostResponseDto> GetPostByIdAsync(Guid uid);
+        Task<PostResponseDto?> CreatePost(CreatePostDto postDto);
+        Task<PostResponseDto?> GetPostByIdAsync(Guid uid);
         Task<PagedResult<PostResponseDto>> GetAllPostsAsync(
             PaginationParams pagination,
             string? search = null,
             string? sortBy = "createdAt",
             string? sortOrder = "asc"
             );
-        Task<PostResponseDto> UpdatePost(Guid uid, UpdatePostDto postDto);
+        Task<PostResponseDto?> UpdatePost(Guid uid, UpdatePostDto postDto);
         Task<bool> DeletePost(Guid uid);
     }
 }

@@ -1,9 +1,9 @@
-﻿using AuthDemo.DTOs.CommentDtos;
-using AuthDemo.Exceptions;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
-namespace AuthDemo.Services.Implementations
+using Server.DTOs.CommentDtos;
+using Server.Exceptions;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
+namespace Server.Services.Implementations
 {
     public class CommentService : ICommentService
     {

@@ -1,6 +1,6 @@
-﻿namespace AuthDemo.Exceptions
+namespace Server.Exceptions
 {
-    // ── 404 Not Found ──────────────────────────────────────────────────────
+    // -- 404 Not Found ------------------------------------------------------
 
     public class NotFoundException : Exception
     {
@@ -10,14 +10,14 @@
             : base($"'{name}' with key '{key}' was not found.") { }
     }
 
-    // ── 400 Bad Request ────────────────────────────────────────────────────
+    // -- 400 Bad Request ----------------------------------------------------
 
     public class BadRequestException : Exception
     {
         public BadRequestException(string message) : base(message) { }
     }
 
-    // ── 422 Validation ─────────────────────────────────────────────────────
+    // -- 422 Validation -----------------------------------------------------
 
     public class ValidationException : Exception
     {
@@ -36,35 +36,35 @@
         }
     }
 
-    // ── 401 Unauthorized ───────────────────────────────────────────────────
+    // -- 401 Unauthorized ---------------------------------------------------
 
     public class UnauthorizedException : Exception
     {
         public UnauthorizedException(string message = "Unauthorized. Please log in.") : base(message) { }
     }
 
-    // ── 403 Forbidden ──────────────────────────────────────────────────────
+    // -- 403 Forbidden ------------------------------------------------------
 
     public class ForbiddenException : Exception
     {
         public ForbiddenException(string message = "You do not have permission to perform this action.") : base(message) { }
     }
 
-    // ── 409 Conflict ───────────────────────────────────────────────────────
+    // -- 409 Conflict -------------------------------------------------------
 
     public class ConflictException : Exception
     {
         public ConflictException(string message) : base(message) { }
     }
 
-    // ── 503 Database Error ─────────────────────────────────────────────────
+    // -- 503 Database Error -------------------------------------------------
 
     public class DatabaseException : Exception
     {
         public DatabaseException(string message = "A database error occurred.") : base(message) { }
     }
 
-    // ── 409 Database Conflict (unique / FK violation) ──────────────────────
+    // -- 409 Database Conflict (unique / FK violation) ----------------------
 
     public class DatabaseConflictException : Exception
     {

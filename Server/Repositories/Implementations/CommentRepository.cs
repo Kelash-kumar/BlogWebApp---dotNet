@@ -1,10 +1,10 @@
-﻿using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
+using Server.Data;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Repositories.Implementations
+namespace Server.Repositories.Implementations
 {
     public class CommentRepository : ICommentRepository
     {
@@ -55,7 +55,7 @@ namespace AuthDemo.Repositories.Implementations
                  .SetProperty(c => c.Body, comment.Body)
                 );
 
-            if (affected == null) return null;
+            if (affected == 0) return null;
 
             return await GetCommentByIdAsync(uid);
 

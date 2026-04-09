@@ -1,7 +1,7 @@
-using BlogAuth.UI.Models;
-using BlogAuth.UI.Models.DTOs;
+using Client.Models;
+using Client.Models.DTOs;
 
-namespace BlogAuth.UI.Services
+namespace Client.Services
 {
     public interface IAuthService
     {

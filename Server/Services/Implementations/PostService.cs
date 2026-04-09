@@ -1,12 +1,12 @@
-using AuthDemo.DTOs.PostDtos;
-using AuthDemo.Exceptions;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.PostDtos;
+using Server.Exceptions;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
 using System.Security.Claims;
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class PostService : IPostService
     {
@@ -19,7 +19,7 @@ namespace AuthDemo.Services.Implementations
             _slugService = slugService;
         }
 
-        public async Task<PostResponseDto> CreatePost(CreatePostDto postDto)
+        public async Task<PostResponseDto?> CreatePost(CreatePostDto postDto)
         {
          
             var postTitle = postDto.Title;
@@ -47,7 +47,7 @@ namespace AuthDemo.Services.Implementations
             return MapPostResponseDtos(newPost);
         }
 
-        public async Task<PostResponseDto> GetPostByIdAsync(Guid uid)
+        public async Task<PostResponseDto?> GetPostByIdAsync(Guid uid)
         {
             var post = await _postRepository.GetPostByIdAsync(uid);
             if (post == null) throw new NotFoundException("Post Not Found");
@@ -63,7 +63,7 @@ namespace AuthDemo.Services.Implementations
         )
         {
             var (posts, totalRecords) = await _postRepository.GetAllPostsAsync(pagination, search, sortBy, sortDirection);
-            var postDtos = posts.Select(p => MapPostResponseDtos(p)).ToList();
+            var postDtos = posts.Select(p => MapPostResponseDtos(p)!).ToList();
 
             return new PagedResult<PostResponseDto>
             {
@@ -74,7 +74,7 @@ namespace AuthDemo.Services.Implementations
             };
         }
 
-        public async Task<PostResponseDto> UpdatePost(Guid uid, UpdatePostDto postDto)
+        public async Task<PostResponseDto?> UpdatePost(Guid uid, UpdatePostDto postDto)
         {
             var post = await _postRepository.GetPostByIdAsync(uid);
             if (post == null) throw new NotFoundException("Post Not Found");
@@ -105,8 +105,9 @@ namespace AuthDemo.Services.Implementations
             return result;
         }
 
-        private static PostResponseDto MapPostResponseDtos(Post post)
+        private static PostResponseDto? MapPostResponseDtos(Post? post)
         {
+            if (post == null) return null;
             return new PostResponseDto
             {
                 Id = post.Id,
@@ -120,18 +121,18 @@ namespace AuthDemo.Services.Implementations
                 FeaturedImage = post.FeaturedImage,
                 Status = post.Status.ToString(),
                 PublishedAt = post.PublishedAt,
-                Author = new AuthorDto
+                Author = post.Author != null ? new AuthorDto
                 {
                     Id = post.Author.Id,
                     Name = post.Author.Name,
                     Email = post.Author.Email,
-                },
-                Category = new CategoryDto
+                } : null,
+                Category = post.Category != null ? new CategoryDto
                 {
                     Id = post.Category.Id,
                     Name = post.Category.Name,
                     Slug = post.Category.Slug,
-                },
+                } : null,
                 CreatedAt = post.CreatedAt,
                 UpdatedAt = post.UpdatedAt,
             };

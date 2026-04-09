@@ -1,5 +1,5 @@
-using BlogAuth.UI.Models;
-using BlogAuth.UI.Models.DTOs;
+using Client.Models;
+using Client.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace BlogAuth.UI.Services
+namespace Client.Services
 {
     public class BlogService : IBlogService
     {

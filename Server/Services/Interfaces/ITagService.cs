@@ -1,7 +1,7 @@
-﻿using AuthDemo.DTOs.TagsDtos;
-using AuthDemo.Helpers;
+using Server.DTOs.TagsDtos;
+using Server.Helpers;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface ITagService
     {

@@ -1,10 +1,10 @@
-using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
+using Server.Data;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Repositories.Implementations
+namespace Server.Repositories.Implementations
 {
     public class PostRepository : IPostRepository
     {
@@ -25,9 +25,9 @@ namespace AuthDemo.Repositories.Implementations
 
         public async Task<(List<Post>, int totalRecords)> GetAllPostsAsync(
         PaginationParams paginationParams,
-        string search = null,
-        string sortBy = "createdAt",
-        string sortDirection = "desc")
+        string? search = null,
+        string? sortBy = "createdAt",
+        string? sortDirection = "desc")
         {
             var query = _context.Posts
                 .Include(p => p.Author)
@@ -68,7 +68,7 @@ namespace AuthDemo.Repositories.Implementations
             return await _context.Posts.Select(p => p.Slug).ToListAsync();
         }
 
-        public async Task<Post> GetPostByIdAsync(Guid uid)
+        public async Task<Post?> GetPostByIdAsync(Guid uid)
         {
             return await _context.Posts
                 .Include(p => p.Author)

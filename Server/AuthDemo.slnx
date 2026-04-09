@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="../BlogAuth.UI/BlogAuth.UI.csproj" Id="46c85f79-70f7-4e33-9cf3-232e70a4f9b9" />
-  <Project Path="AuthDemo.csproj" />
-</Solution>

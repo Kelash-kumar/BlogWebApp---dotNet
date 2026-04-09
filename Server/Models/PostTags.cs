@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.Models
+namespace Server.Models
 {
     public class PostTags
     {

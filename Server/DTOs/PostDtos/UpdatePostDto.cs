@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.PostDtos
+namespace Server.DTOs.PostDtos
 {
     public class UpdatePostDto : BasePostDto
     {

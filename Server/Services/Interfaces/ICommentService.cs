@@ -1,6 +1,6 @@
-﻿using AuthDemo.DTOs.CommentDtos;
+using Server.DTOs.CommentDtos;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface ICommentService
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace BlogAuth.UI.Pages.Auth
+namespace Client.Pages.Auth
 {
     public class LogoutModel : PageModel
     {

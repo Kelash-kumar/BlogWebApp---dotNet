@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.CategoryDtos
+namespace Server.DTOs.CategoryDtos
 {
     public class CategoryRequestDto : BaseCategoryDto
     {

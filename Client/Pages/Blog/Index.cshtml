@@ -1,5 +1,5 @@
 @page
-@model BlogAuth.UI.Pages.Blog.IndexModel
+@model Client.Pages.Blog.IndexModel
 @{
     ViewData["Title"] = "Our Blog";
 }
@@ -16,7 +16,7 @@
             </div>
         </form>
 
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity?.IsAuthenticated == true)
         {
             <div class="mt-4 animate-fade-in delay-200">
                 <a asp-page="/Blog/Create" class="btn btn-primary-custom">

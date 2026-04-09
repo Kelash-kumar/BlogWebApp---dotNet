@@ -1,12 +1,12 @@
-﻿using AuthDemo.Models;
-using AuthDemo.Services.Interfaces;
+using Server.Models;
+using Server.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class Emailservice : IEmailService
     {

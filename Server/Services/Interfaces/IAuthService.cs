@@ -1,6 +1,6 @@
-﻿using AuthDemo.DTOs.UserDTOs;
+using Server.DTOs.UserDTOs;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface IAuthService
     {

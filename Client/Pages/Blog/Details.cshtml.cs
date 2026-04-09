@@ -1,5 +1,5 @@
-using BlogAuth.UI.Models.DTOs;
-using BlogAuth.UI.Services;
+using Client.Models.DTOs;
+using Client.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace BlogAuth.UI.Pages.Blog
+namespace Client.Pages.Blog
 {
     public class DetailsModel : PageModel
     {
@@ -61,7 +61,7 @@ namespace BlogAuth.UI.Pages.Blog
             }
 
             // Set UserId if authenticated
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (int.TryParse(userIdStr, out int userId))
@@ -100,7 +100,7 @@ namespace BlogAuth.UI.Pages.Blog
             }
 
             // Set UserId if authenticated
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (int.TryParse(userIdStr, out int userId))
@@ -120,7 +120,7 @@ namespace BlogAuth.UI.Pages.Blog
         }
         public async Task<JsonResult> OnPostDeleteAjaxAsync(Guid uid)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated != true)
             {
                 return new JsonResult(new { success = false, message = "You must be logged in to delete posts." });
             }

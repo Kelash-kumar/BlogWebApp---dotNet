@@ -1,7 +1,7 @@
-﻿using AuthDemo.DTOs.RoleDTOs;
-using AuthDemo.Helpers;
+using Server.DTOs.RoleDTOs;
+using Server.Helpers;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface IRoleService
     {

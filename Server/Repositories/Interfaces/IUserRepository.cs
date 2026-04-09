@@ -1,12 +1,12 @@
-﻿using AuthDemo.Helpers;
-using AuthDemo.Models;
+using Server.Helpers;
+using Server.Models;
 
-namespace AuthDemo.Repositories.Interfaces
+namespace Server.Repositories.Interfaces
 {
     public interface IUserRepository
     {
         Task<User?> GetUserByEmailAsync(string email);
-        Task<User> GetUserByIdAsync(Guid uid);
+        Task<User?> GetUserByIdAsync(Guid uid);
 
         Task CreateUserAsync(User user);
 

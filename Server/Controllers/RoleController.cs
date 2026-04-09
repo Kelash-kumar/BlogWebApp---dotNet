@@ -1,10 +1,10 @@
-﻿using AuthDemo.DTOs.RoleDTOs;
-using AuthDemo.Helpers;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.RoleDTOs;
+using Server.Helpers;
+using Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]

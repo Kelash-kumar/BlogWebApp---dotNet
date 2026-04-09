@@ -1,4 +1,4 @@
-namespace BlogAuth.UI.Models.DTOs
+namespace Client.Models.DTOs
 {
     public class RegisterDto
     {

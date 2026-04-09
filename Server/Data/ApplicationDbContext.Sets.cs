@@ -1,7 +1,7 @@
-﻿using AuthDemo.Models;
+using Server.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Data
+namespace Server.Data
 {
     public partial class ApplicationDbContext
     {

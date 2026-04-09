@@ -1,7 +1,7 @@
-﻿using AuthDemo.DTOs.CategoryDtos;
-using AuthDemo.Helpers;
+using Server.DTOs.CategoryDtos;
+using Server.Helpers;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface ICategoryService
     {

@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.UserDTOs
+namespace Server.DTOs.UserDTOs
 {
     public class TokenUserDTO
     {

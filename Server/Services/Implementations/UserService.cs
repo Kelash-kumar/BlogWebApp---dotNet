@@ -1,10 +1,10 @@
-﻿using AuthDemo.DTOs.UserDTOs;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.UserDTOs;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class UserService(IUserRepository userRepository) : IUserService
     {
@@ -24,7 +24,7 @@ namespace AuthDemo.Services.Implementations
 
             users ??= new List<User>();
 
-            var userDtos = users.Select(MapToUserResponseDto).ToList();
+            var userDtos = users.Select(u => MapToUserResponseDto(u)!).ToList();
 
             return new PagedResult<UserResponseDto>
             {
@@ -35,28 +35,28 @@ namespace AuthDemo.Services.Implementations
             };
         }
 
-        public async Task<UserResponseDto> UpdateUserAsync(Guid uid, UserRequestDto userUpdateDto)
+        public async Task<UserResponseDto?> UpdateUserAsync(Guid uid, UserRequestDto userUpdateDto)
         {
-
             var updatedUser = await _userRepository.UpdateUserAsync(uid, new User
             {
-                Name = userUpdateDto.Name,
-                Bio = userUpdateDto.Bio,
-                Avatar = userUpdateDto.ProfilePictureUrl
+                Name = userUpdateDto.Name ?? string.Empty,
+                Bio = userUpdateDto.Bio ?? string.Empty,
+                Avatar = userUpdateDto.ProfilePictureUrl ?? string.Empty
             });
 
             return MapToUserResponseDto(updatedUser);
-
         }
 
-        public async Task<UserResponseDto> GetUserByIdAsync(Guid uid)
+        public async Task<UserResponseDto?> GetUserByIdAsync(Guid uid)
         {
-
             var user = await _userRepository.GetUserByIdAsync(uid);
 
             return MapToUserResponseDto(user);
         }
-        private static UserResponseDto MapToUserResponseDto(User user) => new()
+        private static UserResponseDto? MapToUserResponseDto(User? user)
+        {
+            if (user == null) return null;
+            return new()
         {
             Id = user.Id,
             Uuid = user.Uid.ToString(),
@@ -67,9 +67,8 @@ namespace AuthDemo.Services.Implementations
             Status = user.Status,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
-            Roles = user.UserRoles?.Select(ur => ur.Role.Name).ToList()
+            Roles = user.UserRoles?.Select(ur => ur.Role!.Name).ToList()
         };
-
-
+        }
     }
 }

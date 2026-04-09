@@ -1,5 +1,5 @@
 @page "{uid}"
-@model BlogAuth.UI.Pages.Blog.DetailsModel
+@model Client.Pages.Blog.DetailsModel
 @{
     ViewData["Title"] = Model.Post.Title;
 }
@@ -23,7 +23,7 @@
                 <span class="blog-author-name d-block fs-5">@(Model.Post.Author?.Name ?? "Admin")</span>
                 <span class="blog-date">Published on @(Model.Post.PublishedAt?.ToString("MMMM dd, yyyy") ?? Model.Post.CreatedAt?.ToString("MMMM dd, yyyy") ?? "Draft")</span>
             </div>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="ms-auto">
                     <a asp-page="/Blog/Edit" asp-route-uid="@Model.Post.Uid" class="btn btn-outline-primary btn-sm rounded-pill px-3 me-2">
@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="row g-3">
-                            @if (!User.Identity.IsAuthenticated)
+                            @if (User.Identity?.IsAuthenticated != true)
                             {
                                 <div class="col-md-6">
                                     <label asp-for="NewComment.GuestName" class="form-label small fw-semibold">Name</label>

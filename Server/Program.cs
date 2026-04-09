@@ -1,8 +1,8 @@
-using AuthDemo.Common;
-using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Middleware;
-using AuthDemo.Models;
+using Server.Common;
+using Server.Data;
+using Server.Helpers;
+using Server.Middleware;
+using Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +20,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.Scan(scan => scan
     .FromAssemblyOf<Program>()
     .AddClasses(classes => classes.InNamespaces(
-        "AuthDemo.Repositories.Implementations",
-        "AuthDemo.Services.Implementations"
+        "Server.Repositories.Implementations",
+        "Server.Services.Implementations"
         ))
     .AsImplementedInterfaces()
     .WithScopedLifetime());

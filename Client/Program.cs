@@ -2,8 +2,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddHttpClient<BlogAuth.UI.Services.IAuthService, BlogAuth.UI.Services.AuthService>();
-builder.Services.AddHttpClient<BlogAuth.UI.Services.IBlogService, BlogAuth.UI.Services.BlogService>();
+builder.Services.AddHttpClient<Client.Services.IAuthService, Client.Services.AuthService>();
+builder.Services.AddHttpClient<Client.Services.IBlogService, Client.Services.BlogService>();
 
 // Add Cookie Authentication
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)

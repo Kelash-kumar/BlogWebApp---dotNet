@@ -1,6 +1,6 @@
-﻿using AuthDemo.Common;
+using Server.Common;
 
-namespace AuthDemo.DTOs.CategoryDtos
+namespace Server.DTOs.CategoryDtos
 {
     public class CategoryResponseDto : BaseCategoryDto, IBaseResponseDto
     {

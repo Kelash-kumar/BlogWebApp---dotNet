@@ -1,11 +1,11 @@
-﻿using AuthDemo.DTOs.UserDTOs;
-using AuthDemo.Exceptions;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.UserDTOs;
+using Server.Exceptions;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class AuthService(IUserRepository repo, JwtService jwt, IEmailService emailService) : IAuthService
     {

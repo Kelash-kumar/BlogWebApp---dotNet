@@ -1,8 +1,8 @@
-﻿using AuthDemo.Models;
+using Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AuthDemo.Data.Configurations
+namespace Server.Data.Configurations
 {
     public class CommentsConfiguration : IEntityTypeConfiguration<Comment>
     {

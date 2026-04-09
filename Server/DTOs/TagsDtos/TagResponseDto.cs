@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.TagsDtos
+namespace Server.DTOs.TagsDtos
 {
     public class TagResponseDto
     {

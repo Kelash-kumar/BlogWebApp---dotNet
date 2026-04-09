@@ -1,7 +1,7 @@
-﻿using AuthDemo.DTOs.UserDTOs;
-using AuthDemo.Helpers;
+using Server.DTOs.UserDTOs;
+using Server.Helpers;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface IUserService
     {
@@ -11,8 +11,8 @@ namespace AuthDemo.Services.Interfaces
             string? sortBy = "name",
             string? sortOrder = "asc"
             );
-        Task<UserResponseDto> UpdateUserAsync(Guid uid, UserRequestDto userUpdateDto);
-        Task<UserResponseDto> GetUserByIdAsync(Guid uid);
+        Task<UserResponseDto?> UpdateUserAsync(Guid uid, UserRequestDto userUpdateDto);
+        Task<UserResponseDto?> GetUserByIdAsync(Guid uid);
     }
 
 }

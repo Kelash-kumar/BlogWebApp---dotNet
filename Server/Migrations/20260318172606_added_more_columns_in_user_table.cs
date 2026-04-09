@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuthDemo.Migrations
+namespace Server.Migrations
 {
     /// <inheritdoc />
     public partial class added_more_columns_in_user_table : Migration

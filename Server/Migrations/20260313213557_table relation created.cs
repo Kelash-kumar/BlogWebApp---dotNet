@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AuthDemo.Migrations
+namespace Server.Migrations
 {
     /// <inheritdoc />
-    public partial class tablerelationcreated : Migration
+    public partial class TableRelationCreated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

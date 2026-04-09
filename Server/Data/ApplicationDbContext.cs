@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Data
+namespace Server.Data
 {
     public partial class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {

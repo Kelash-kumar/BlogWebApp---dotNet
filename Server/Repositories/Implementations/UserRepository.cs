@@ -1,10 +1,10 @@
-﻿using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
+using Server.Data;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Repositories.Implementations
+namespace Server.Repositories.Implementations
 {
     public class UserRepository(ApplicationDbContext context) : IUserRepository
     {
@@ -24,10 +24,10 @@ namespace AuthDemo.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _context.Users
-            .Include(u => u.UserRoles)
+            .Include(u => u.UserRoles!)
             .ThenInclude(ur => ur.Role)
             .FirstOrDefaultAsync(u => u.Email == email);
         }
@@ -50,7 +50,7 @@ namespace AuthDemo.Repositories.Implementations
 
             var query = _context.Users
                 .AsNoTracking()
-                .Include(u => u.UserRoles)
+                .Include(u => u.UserRoles!)
                     .ThenInclude(ur => ur.Role)
                 .AsQueryable();
 
@@ -92,7 +92,7 @@ namespace AuthDemo.Repositories.Implementations
             return (users, totalRecords);
         }
 
-        public async Task<User> UpdateUserAsync(Guid uid, User user)
+        public async Task<User?> UpdateUserAsync(Guid uid, User user)
         {
             var affected = await _context.Users
                 .Where(u => u.Uid == uid)
@@ -110,10 +110,10 @@ namespace AuthDemo.Repositories.Implementations
             return await _context.Users.FirstOrDefaultAsync(u => u.Uid == uid);
         }
 
-        public async Task<User> GetUserByIdAsync(Guid uid)
+        public async Task<User?> GetUserByIdAsync(Guid uid)
         {
             return await _context.Users
-                .Include(u => u.UserRoles)
+                .Include(u => u.UserRoles!)
                 .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Uid == uid);
         }

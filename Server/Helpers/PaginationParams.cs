@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.Helpers
+namespace Server.Helpers
 {
     public class PaginationParams
     {

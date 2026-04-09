@@ -1,6 +1,6 @@
-﻿using AuthDemo.Services.Interfaces;
+using Server.Services.Interfaces;
 using Slugify;
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class SlugService : ISlugService
     {

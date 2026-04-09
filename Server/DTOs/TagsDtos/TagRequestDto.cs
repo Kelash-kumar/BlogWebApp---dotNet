@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace AuthDemo.DTOs.TagsDtos
+namespace Server.DTOs.TagsDtos
 {
     public class TagRequestDto
     {

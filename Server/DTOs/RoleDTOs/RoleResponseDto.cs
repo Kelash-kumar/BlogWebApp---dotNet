@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.RoleDTOs
+namespace Server.DTOs.RoleDTOs
 {
     public class RoleResponseDto
     {

@@ -1,10 +1,10 @@
-using BlogAuth.UI.Models;
-using BlogAuth.UI.Models.DTOs;
+using Client.Models;
+using Client.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogAuth.UI.Services
+namespace Client.Services
 {
     public interface IBlogService
     {

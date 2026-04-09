@@ -1,10 +1,10 @@
-﻿using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
+using Server.Data;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Repositories.Implementations
+namespace Server.Repositories.Implementations
 {
     public class RoleRepository(ApplicationDbContext context) : IRoleRepository
     {
@@ -61,7 +61,7 @@ namespace AuthDemo.Repositories.Implementations
                     .SetProperty(r => r.Description, role.Description)
                 );
 
-            if (affected == null)
+            if (affected == 0)
             {
                 return null;
             }

@@ -1,5 +1,5 @@
-﻿
-namespace AuthDemo.DTOs.CategoryDtos
+
+namespace Server.DTOs.CategoryDtos
 {
     public abstract class BaseCategoryDto
     {

@@ -1,10 +1,10 @@
-﻿using AuthDemo.Data;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
+using Server.Data;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthDemo.Repositories.Implementations
+namespace Server.Repositories.Implementations
 {
     public class CategoryRepository : ICategoryRepository
     {
@@ -103,7 +103,7 @@ namespace AuthDemo.Repositories.Implementations
                    .SetProperty(c => c.Slug, category.Slug)
                    .SetProperty(c => c.ParentId, category.ParentId)
                   );
-            if (affected == null) return null;
+            if (affected == 0) return null;
 
             return await GetCategoryByIdAsync(uid);
         }

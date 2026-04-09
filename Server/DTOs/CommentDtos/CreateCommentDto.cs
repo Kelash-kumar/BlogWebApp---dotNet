@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.DTOs.CommentDtos
+namespace Server.DTOs.CommentDtos
 {
     public class CreateCommentDto
     {

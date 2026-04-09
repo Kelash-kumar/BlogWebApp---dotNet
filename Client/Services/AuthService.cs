@@ -1,9 +1,9 @@
-using BlogAuth.UI.Models;
-using BlogAuth.UI.Models.DTOs;
+using Client.Models;
+using Client.Models.DTOs;
 using System.Text;
 using System.Text.Json;
 
-namespace BlogAuth.UI.Services
+namespace Client.Services
 {
     public class AuthService : IAuthService
     {

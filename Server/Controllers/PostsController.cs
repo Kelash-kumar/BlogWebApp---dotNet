@@ -1,11 +1,11 @@
-using AuthDemo.DTOs.PostDtos;
-using AuthDemo.Helpers;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.PostDtos;
+using Server.Helpers;
+using Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     public class PostsController : BaseApiController
     {
@@ -41,7 +41,10 @@ namespace AuthDemo.Controllers
             }
 
             var authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            if (string.IsNullOrEmpty(authorId))
+            {
+                return ApiUnauthorized("User identifier not found in claims.");
+            }
             dto.AuthorId = int.Parse(authorId);
             var result = await _postService.CreatePost(dto);
 

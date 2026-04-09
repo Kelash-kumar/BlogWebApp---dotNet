@@ -1,8 +1,8 @@
-﻿using AuthDemo.DTOs.UserDTOs;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.UserDTOs;
+using Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]

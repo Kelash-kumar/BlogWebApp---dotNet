@@ -1,7 +1,7 @@
-﻿using AuthDemo.Helpers;
-using AuthDemo.Models;
+using Server.Helpers;
+using Server.Models;
 
-namespace AuthDemo.Repositories.Interfaces
+namespace Server.Repositories.Interfaces
 {
     public interface ICommentRepository
     {

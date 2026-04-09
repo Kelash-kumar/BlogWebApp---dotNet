@@ -1,10 +1,10 @@
-﻿using AuthDemo.DTOs.CategoryDtos;
-using AuthDemo.Helpers;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.CategoryDtos;
+using Server.Helpers;
+using Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     [Authorize]
     public class CategoriesController : BaseApiController

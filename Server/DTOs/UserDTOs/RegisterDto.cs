@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace AuthDemo.DTOs.UserDTOs
+namespace Server.DTOs.UserDTOs
 {
     public class RegisterDto
     {

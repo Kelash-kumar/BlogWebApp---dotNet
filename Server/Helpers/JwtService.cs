@@ -1,10 +1,10 @@
-﻿using AuthDemo.DTOs.UserDTOs;
+using Server.DTOs.UserDTOs;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AuthDemo.Helpers
+namespace Server.Helpers
 {
     public class JwtService
     {

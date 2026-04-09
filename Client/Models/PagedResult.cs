@@ -1,4 +1,4 @@
-namespace BlogAuth.UI.Models
+namespace Client.Models
 {
     public class PagedResult<T>
     {

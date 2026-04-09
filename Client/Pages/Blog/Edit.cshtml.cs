@@ -1,5 +1,5 @@
-using BlogAuth.UI.Models.DTOs;
-using BlogAuth.UI.Services;
+using Client.Models.DTOs;
+using Client.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,7 +7,7 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace BlogAuth.UI.Pages.Blog
+namespace Client.Pages.Blog
 {
     [Authorize]
     public class EditModel : PageModel

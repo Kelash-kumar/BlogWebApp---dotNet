@@ -1,6 +1,6 @@
-﻿using AuthDemo.Models;
+using Server.Models;
 
-namespace AuthDemo.Services.Interfaces
+namespace Server.Services.Interfaces
 {
     public interface IEmailService
     {

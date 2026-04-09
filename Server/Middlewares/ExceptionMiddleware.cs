@@ -1,12 +1,12 @@
-﻿using AuthDemo.Common;
-using AuthDemo.Exceptions;
-using AuthDemo.Models;
-using AuthDemo.Services.Interfaces;
+using Server.Common;
+using Server.Exceptions;
+using Server.Models;
+using Server.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
 
-namespace AuthDemo.Middleware
+namespace Server.Middleware
 {
     public class ExceptionMiddleware
     {
@@ -101,7 +101,7 @@ namespace AuthDemo.Middleware
                 var request = context.Request;
 
                 var errorDetails = $@"
-            <h2>🚨 Unhandled Exception</h2>
+            <h2>?? Unhandled Exception</h2>
             <p><strong>Message:</strong> {ex.Message}</p>
             <p><strong>Path:</strong> {request.Path}</p>
             <p><strong>Method:</strong> {request.Method}</p>
@@ -114,8 +114,8 @@ namespace AuthDemo.Middleware
 
                 var emailRequest = new EmailRequest
                 {
-                    To = "your-email@gmail.com", // 🔥 your email
-                    Subject = "🚨 Application Error",
+                    To = "your-email@gmail.com", // ?? your email
+                    Subject = "?? Application Error",
                     Body = errorDetails,
                     IsHtml = true,
                     Cc = new List<string>(),       // optional
@@ -132,7 +132,7 @@ namespace AuthDemo.Middleware
             }
         }
 
-        private static string GetFullError(Exception ex)
+        private static string GetFullError(Exception? ex)
         {
             var messages = new List<string>();
 

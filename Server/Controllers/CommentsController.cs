@@ -1,9 +1,9 @@
-﻿using AuthDemo.DTOs.CommentDtos;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.CommentDtos;
+using Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     [Authorize]
     public class CommentsController : BaseApiController

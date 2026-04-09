@@ -1,11 +1,11 @@
-using BlogAuth.UI.Models;
-using BlogAuth.UI.Models.DTOs;
-using BlogAuth.UI.Services;
+using Client.Models;
+using Client.Models.DTOs;
+using Client.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace BlogAuth.UI.Pages.Blog
+namespace Client.Pages.Blog
 {
     public class IndexModel : PageModel
     {

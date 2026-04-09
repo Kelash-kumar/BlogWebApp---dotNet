@@ -1,7 +1,7 @@
-using AuthDemo.Common;
+using Server.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthDemo.Controllers
+namespace Server.Controllers
 {
     /// <summary>
     /// Base controller that provides ApiResponse helper methods.
@@ -28,6 +28,9 @@ namespace AuthDemo.Controllers
 
         protected IActionResult ApiForbidden(string message = "Forbidden.")
             => StatusCode(403, ApiResponse<object>.Forbidden(message));
+
+        protected IActionResult ApiUnauthorized(string message = "Unauthorized.")
+            => Unauthorized(ApiResponse<object>.Fail(message, 401));
 
         protected IActionResult ApiValidationError(List<string> errors)
             => StatusCode(422, ApiResponse<object>.ValidationError(errors));

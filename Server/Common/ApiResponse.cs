@@ -1,4 +1,4 @@
-﻿namespace AuthDemo.Common
+namespace Server.Common
 {
     public class ApiResponse<T>
     {

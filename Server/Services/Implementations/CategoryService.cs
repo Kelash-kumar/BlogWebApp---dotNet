@@ -1,11 +1,11 @@
-﻿using AuthDemo.DTOs.CategoryDtos;
-using AuthDemo.Exceptions;
-using AuthDemo.Helpers;
-using AuthDemo.Models;
-using AuthDemo.Repositories.Interfaces;
-using AuthDemo.Services.Interfaces;
+using Server.DTOs.CategoryDtos;
+using Server.Exceptions;
+using Server.Helpers;
+using Server.Models;
+using Server.Repositories.Interfaces;
+using Server.Services.Interfaces;
 
-namespace AuthDemo.Services.Implementations
+namespace Server.Services.Implementations
 {
     public class CategoryService : ICategoryService
     {
@@ -124,7 +124,7 @@ namespace AuthDemo.Services.Implementations
                     throw new ConflictException($"Category '{categoryName}' already exists.");
                 var existingSlugs = await _categoryRepository.GetAllCategorySlugAsync() ?? new List<string>();
                 existCat.Name = categoryName ?? existCat.Name;
-                existCat.Slug = _slugService.GenerateUnique(categoryName, existingSlugs);
+                existCat.Slug = _slugService.GenerateUnique(categoryName!, existingSlugs);
             }
 
             // Update fields

@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BlogAuth.UI.Services;
-using BlogAuth.UI.Models.DTOs;
+using Client.Services;
+using Client.Models.DTOs;
 using Microsoft.AspNetCore.Authentication;
 
-namespace BlogAuth.UI.Pages.Auth
+namespace Client.Pages.Auth
 {
     public class LoginModel : PageModel
     {
