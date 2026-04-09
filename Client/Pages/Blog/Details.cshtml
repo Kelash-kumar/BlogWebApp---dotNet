@@ -144,21 +144,31 @@
                     data: $(this).serialize(),
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thank You!',
-                                text: response.message,
-                                confirmButtonColor: '#007bff'
+                            const Toast = Swal.mixin({
+                              toast: true,
+                              position: 'top-end',
+                              showConfirmButton: false,
+                              timer: 3000,
+                              timerProgressBar: true,
+                              didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                              }
+                            });
+
+                            Toast.fire({
+                              icon: 'success',
+                              title: response.message
                             }).then(() => {
-                                location.reload(); // Reload to see the new comment
+                                location.reload();
                             });
                         } else {
                             $btn.removeClass('btn-loading');
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Oops...',
+                                title: 'Validation Error',
                                 text: response.message,
-                                confirmButtonColor: '#007bff'
+                                confirmButtonColor: '#4f46e5'
                             });
                         }
                     },
@@ -166,9 +176,9 @@
                         $btn.removeClass('btn-loading');
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: 'System Error',
                             text: 'Something went wrong. Please try again later.',
-                            confirmButtonColor: '#007bff'
+                            confirmButtonColor: '#4f46e5'
                         });
                     }
                 });

@@ -1,30 +1,26 @@
 @model Client.Models.DTOs.CommentResponseDto
 
-<div class="comment-item mb-4 animate-fade-in" style="--animation-delay: 0.1s;">
-    <div class="d-flex gap-3">
+<div class="comment-item">
+    <div class="d-flex gap-2">
         <div class="flex-shrink-0">
-            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.AuthorName)&background=random" class="rounded-circle shadow-sm" alt="@Model.AuthorName" style="width: 48px; height: 48px; border: 2px solid white;">
+            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.AuthorName)&background=random" class="fb-avatar-sm" alt="@Model.AuthorName">
         </div>
-        <div class="flex-grow-1 p-4 bg-white rounded-lg shadow-sm border border-light-subtle">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h5 class="mb-0 fw-bold fs-6">@Model.AuthorName</h5>
-                <span class="text-muted small">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+        <div class="flex-grow-1">
+            <div class="fb-comment-bubble shadow-sm">
+                <div class="fb-comment-author">@Model.AuthorName</div>
+                <div class="fb-comment-body">@Model.Body</div>
             </div>
-            <p class="mb-3 text-secondary" style="font-size: 0.95rem;">@Model.Body</p>
-            <div class="comment-actions">
-                <button type="button" class="btn btn-sm btn-link text-primary-color p-0 text-decoration-none fw-semibold" onclick="setReply('@Model.Id', '@Model.AuthorName')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-reply-fill me-1" viewBox="0 0 16 16">
-                      <path d="M5.921 11.9 1 8l4.921-3.9V7c2.122 0 4.008.491 5.474 1.39.073.045.061.18-.013.188-.435.044-.89.059-1.344.059H8.5c-1.398 0-2.5 1.102-2.5 2.5v2.275z"/>
-                    </svg>
-                    Reply
-                </button>
+            <div class="fb-comment-actions">
+                <a href="javascript:void(0)" class="fb-action-link">Like</a>
+                <a href="javascript:void(0)" class="fb-action-link" onclick="setReply('@Model.Id', '@Model.AuthorName')">Reply</a>
+                <span class="fb-comment-time">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
             </div>
         </div>
     </div>
 
     @if (Model.Replies != null && Model.Replies.Any())
     {
-        <div class="replies-container ms-5 ps-4 border-start border-light-subtle mt-4">
+        <div class="fb-replies-container">
             @foreach (var reply in Model.Replies)
             {
                 @await Html.PartialAsync("_CommentPartial", reply)
