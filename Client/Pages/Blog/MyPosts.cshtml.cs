@@ -25,14 +25,10 @@ namespace Client.Pages.Blog
 
         public async Task OnGetAsync()
         {
-            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (int.TryParse(userIdStr, out int userId))
+            var response = await _blogService.GetPostsAsync(PageNumber, 10, null, "createdAt", "desc", true);
+            if (response.Success && response.Data != null)
             {
-                var response = await _blogService.GetPostsAsync(PageNumber, 10, null, "createdAt", "desc", userId);
-                if (response.Success && response.Data != null)
-                {
-                    Posts = response.Data;
-                }
+                Posts = response.Data;
             }
         }
     }

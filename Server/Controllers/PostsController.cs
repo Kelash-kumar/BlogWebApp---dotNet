@@ -22,9 +22,19 @@ namespace Server.Controllers
             [FromQuery] string? search = null,
             [FromQuery] string? sortBy = null,
             [FromQuery] string? sortDirection = "desc",
-            [FromQuery] int? authorId = null
+            [FromQuery] bool? myPosts = false
             )
         {
+            int? authorId = null;
+            if(myPosts == true)
+            {
+                var authorIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(authorIdClaim))
+                {
+                    return ApiUnauthorized("User identifier not found in claims.");
+                }
+                authorId = int.Parse(authorIdClaim);
+            }
             var result = await _postService.GetAllPostsAsync(paginationParams, search, sortBy, sortDirection, authorId);
 
             return ApiOk(result, "Posts Fetched Successfully.");
