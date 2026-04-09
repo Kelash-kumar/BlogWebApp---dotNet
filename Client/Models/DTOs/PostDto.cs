@@ -28,7 +28,7 @@ namespace Client.Models.DTOs
         [System.ComponentModel.DataAnnotations.Required]
         public string Title { get; set; } = string.Empty;
         
-        public string Slug { get; set; } = string.Empty;
+        public string? Slug { get; set; }
         public string Excerpt { get; set; } = string.Empty;
         
         [System.ComponentModel.DataAnnotations.Required]

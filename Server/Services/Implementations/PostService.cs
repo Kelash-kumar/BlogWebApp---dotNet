@@ -22,11 +22,11 @@ namespace Server.Services.Implementations
         public async Task<PostResponseDto?> CreatePost(CreatePostDto postDto)
         {
          
-            var postTitle = postDto.Title;
-
-            // Generate new slug for post
-            var existingSlug = await _postRepository.GetAllPostSlugsAsync();
-            var slug = _slugService.GenerateUnique(postTitle, existingSlug);
+            // Handle Slug: Use provided slug or generate from title
+            var existingSlugs = await _postRepository.GetAllPostSlugsAsync();
+            var slug = string.IsNullOrWhiteSpace(postDto.Slug) 
+                ? _slugService.GenerateUnique(postDto.Title, existingSlugs)
+                : _slugService.GenerateUnique(postDto.Slug, existingSlugs);
 
             // Create post object
             var post = new Post
@@ -35,7 +35,7 @@ namespace Server.Services.Implementations
                 CategoryId = postDto.CategoryId,
                 Excerpt = postDto.Excerpt,
                 Slug = slug,
-                Title = postTitle,
+                Title = postDto.Title,
                 Content = postDto.Content,
                 FeaturedImage = postDto.FeaturedImage,
                 PublishedAt = postDto.PublishedAt ?? DateTime.UtcNow,
@@ -80,11 +80,16 @@ namespace Server.Services.Implementations
             var post = await _postRepository.GetPostByIdAsync(uid);
             if (post == null) throw new NotFoundException("Post Not Found");
 
-            // Generate new slug if title changed (optional but common)
-            if (post.Title != postDto.Title)
+            // Handle Slug update
+            if (!string.IsNullOrWhiteSpace(postDto.Slug) && postDto.Slug != post.Slug)
             {
-                var existingSlugs = await _postRepository.GetAllPostSlugsAsync();
-                post.Slug = _slugService.GenerateUnique(postDto.Title, existingSlugs);
+                var allSlugs = await _postRepository.GetAllPostSlugsAsync();
+                post.Slug = _slugService.GenerateUnique(postDto.Slug, allSlugs);
+            }
+            else if (string.IsNullOrWhiteSpace(postDto.Slug) && post.Title != postDto.Title)
+            {
+                var allSlugs = await _postRepository.GetAllPostSlugsAsync();
+                post.Slug = _slugService.GenerateUnique(postDto.Title, allSlugs);
             }
 
             // Update fields

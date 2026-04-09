@@ -5,7 +5,7 @@ namespace Server.DTOs.PostDtos
         public int? AuthorId { get; set; }
         public int CategoryId { get; set; }
         public string Title { get; set; } = string.Empty;
-        public string Slug { get; set; } = string.Empty;
+        public string? Slug { get; set; }
         public string Excerpt { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public string FeaturedImage { get; set; } = string.Empty;

@@ -44,6 +44,7 @@ namespace Client.Pages.Blog
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Post.Slug");
             if (!ModelState.IsValid)
             {
                 await LoadCategories();
@@ -85,6 +86,7 @@ namespace Client.Pages.Blog
         }
         public async Task<JsonResult> OnPostCreateAjaxAsync()
         {
+            ModelState.Remove("Post.Slug");
             if (!ModelState.IsValid)
             {
                 var errors = string.Join(" ", ModelState.Values

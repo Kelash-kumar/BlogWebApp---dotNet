@@ -64,6 +64,7 @@ namespace Client.Pages.Blog
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Post.Slug");
             if (!ModelState.IsValid)
             {
                 await LoadCategories();
@@ -92,6 +93,7 @@ namespace Client.Pages.Blog
         }
         public async Task<JsonResult> OnPostEditAjaxAsync()
         {
+            ModelState.Remove("Post.Slug");
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new { success = false, message = "Please fill all required fields correctly." });
