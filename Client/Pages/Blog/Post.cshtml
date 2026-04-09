@@ -1,0 +1,63 @@
+@page "{id:int?}"
+@model BlogAuth.UI.Pages.Blog.PostModel
+@{
+    ViewData["Title"] = Model.Post?.Title;
+}
+
+<article class="py-5">
+    <div class="post-header text-center animate-fade-in">
+        <span class="blog-category text-uppercase fw-bold mb-2 d-inline-block">@Model.Post?.Category</span>
+        <h1 class="display-3 fw-900 mb-4" style="color: var(--dark-bg); line-height: 1.1;">@Model.Post?.Title</h1>
+        <div class="blog-meta justify-content-center mb-5">
+            <img src="https://ui-avatars.com/api/?name=@Model.Post?.Author&background=random" class="blog-author-img rounded-circle" alt="@Model.Post?.Author">
+            <div class="text-start">
+                <div class="blog-author-name">@Model.Post?.Author</div>
+                <div class="blog-date">Published on @Model.Post?.Date · 8 min read</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid px-0 mb-5 text-center animate-fade-in delay-100">
+        <img src="@Model.Post?.ImageUrl" class="img-fluid rounded-4 shadow-lg mb-5" style="max-height: 500px; width: 100%; max-width: 1000px; object-fit: cover;" alt="@Model.Post?.Title">
+    </div>
+
+    <div class="container post-content animate-fade-in delay-200">
+        <p class="lead fw-500 mb-5">
+            @Model.Post?.Excerpt
+        </p>
+        
+        <p>In the rapidly evolving world of technology, every year brings new breakthroughs that redefine how we interact with machines and each other. As we look at the landscape of 2026, it's clear that the convergence of multiple technologies is creating a seismic shift in potential.</p>
+        
+        <h2 class="fw-800 mt-5 mb-3">The New Era of Development</h2>
+        <p>Gone are the days when manually writing every line of code was the primary mode of creation. Today, the synthesis of high-level intent and machine-driven implementation is the standard. This isn't about replacing developers; it's about amplifying their capabilities a hundredfold.</p>
+        
+        <p>We are seeing tools that don't just complete your sentences but understand the architectural intent behind your project. They can suggest optimizations for performance, highlight potential security vulnerabilities before they are even written, and ensure that accessibility is not an afterthought but a core component of the codebase.</p>
+
+        <blockquote class="border-start border-4 border-primary ps-4 my-5 fst-italic text-muted h4">
+            "Design is not just what it looks like and feels like. Design is how it works. And today, it's about how it feels to the developer as much as the end-user."
+        </blockquote>
+
+        <h2 class="fw-800 mt-5 mb-3">Aesthetic Intelligence</h2>
+        <p>The visual standards of the web have never been higher. With the widespread adoption of glassmorphism, high-fidelity micro-animations, and dynamic typography, users expect interfaces that feel alive. This level of polish was previously reserved for deep-pocketed tech giants, but modern frameworks and CSS capabilities have democratized premium experiences.</p>
+
+        <div class="my-5 p-4 rounded-4 bg-light border">
+            <h4 class="fw-700">Key Takeaways</h4>
+            <ul class="mb-0">
+                <li class="mb-2">Aesthetics are no longer optional—they are a prerequisite for trust.</li>
+                <li class="mb-2">The focus is shifting from "how to build" to "what to build."</li>
+                <li class="mb-2">Performance and accessibility must be built-in, not bolted-on.</li>
+            </ul>
+        </div>
+        
+        <p>As we continue to push the boundaries of what is possible, let's not forget the human element. Behind every pixel and every line of code, there is a story and a vision. Our role is to ensure those stories are told as beautifully and effectively as possible.</p>
+    </div>
+    
+    <div class="container mt-5 py-5 border-top text-center animate-fade-in delay-200">
+        <h3 class="fw-800 mb-4">Share this story</h3>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="#" class="btn btn-outline-dark rounded-circle px-3 py-2">F</a>
+            <a href="#" class="btn btn-outline-dark rounded-circle px-3 py-2">T</a>
+            <a href="#" class="btn btn-outline-dark rounded-circle px-3 py-2">L</a>
+        </div>
+    </div>
+</article>

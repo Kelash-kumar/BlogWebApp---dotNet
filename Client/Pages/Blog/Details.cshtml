@@ -1,0 +1,171 @@
+@page "{uid}"
+@model BlogAuth.UI.Pages.Blog.DetailsModel
+@{
+    ViewData["Title"] = Model.Post.Title;
+}
+
+<article class="post-header animate-fade-in">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-page="/Index" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a asp-page="/Blog/Index" class="text-decoration-none">Blog</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@(Model.Post.Category?.Name ?? "General")</li>
+            </ol>
+        </nav>
+
+        <span class="blog-category mb-2 d-inline-block">@(Model.Post.Category?.Name ?? "General")</span>
+        <h1 class="hero-title mb-4" style="text-align: left; background: var(--dark-bg); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">@Model.Post.Title</h1>
+        
+        <div class="blog-meta mb-5">
+            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.Post.Author?.Name ?? "Admin")&background=random" class="blog-author-img" alt="@(Model.Post.Author?.Name ?? "Admin")" style="width: 48px; height: 48px;">
+            <div>
+                <span class="blog-author-name d-block fs-5">@(Model.Post.Author?.Name ?? "Admin")</span>
+                <span class="blog-date">Published on @(Model.Post.PublishedAt?.ToString("MMMM dd, yyyy") ?? Model.Post.CreatedAt?.ToString("MMMM dd, yyyy") ?? "Draft")</span>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="ms-auto">
+                    <a asp-page="/Blog/Edit" asp-route-uid="@Model.Post.Uid" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pencil-square me-1" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                        Edit Post
+                    </a>
+                </div>
+            }
+        </div>
+
+        <img src="@(string.IsNullOrEmpty(Model.Post.FeaturedImage) ? "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop" : Model.Post.FeaturedImage)" class="w-100 rounded-lg shadow-lg mb-5" alt="@Model.Post.Title" style="max-height: 500px; object-fit: cover; border-radius: var(--radius-lg);">
+    </div>
+</article>
+
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="post-content mb-5">
+                @Html.Raw(Model.Post.Content)
+            </div>
+
+            <hr class="my-5 opacity-10">
+
+            <!-- Comments Section -->
+            <section id="comments" class="comments-section">
+                <h3 class="mb-4 fw-bold">Comments (@Model.Comments.Count)</h3>
+
+                @if (Model.Comments != null && Model.Comments.Any())
+                {
+                    <div class="comment-list mb-5">
+                        @foreach (var comment in Model.Comments.Where(c => c.ParentId == null))
+                        {
+                            @await Html.PartialAsync("_CommentPartial", comment)
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4 bg-light rounded-lg mb-5" style="border: 2px dashed #e2e8f0;">
+                        <p class="text-muted mb-0">No comments yet. Be the first to share your thoughts!</p>
+                    </div>
+                }
+
+                <!-- Post Comment Form -->
+                <div class="comment-form-container p-4 p-md-5 bg-white rounded-lg shadow-sm border">
+                    <h4 class="mb-4 fw-bold">Leave a Response</h4>
+                    <form id="commentForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="NewComment.PostId" value="@Model.Post.Id" />
+                        <input type="hidden" asp-for="NewComment.ParentId" id="comment-parent-id" />
+                        
+                        <div id="reply-to-alert" class="alert alert-info d-none mb-3 d-flex justify-content-between align-items-center">
+                            <span>Replying to <strong id="reply-to-name"></strong></span>
+                            <button type="button" class="btn-close" onclick="cancelReply()"></button>
+                        </div>
+
+                        <div class="row g-3">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <div class="col-md-6">
+                                    <label asp-for="NewComment.GuestName" class="form-label small fw-semibold">Name</label>
+                                    <input asp-for="NewComment.GuestName" class="form-control" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="NewComment.GuestEmail" class="form-label small fw-semibold">Email</label>
+                                    <input asp-for="NewComment.GuestEmail" type="email" class="form-control" placeholder="Email Address (not published)" required>
+                                </div>
+                            }
+                            <div class="col-12">
+                                <label asp-for="NewComment.Body" class="form-label small fw-semibold">Message</label>
+                                <textarea asp-for="NewComment.Body" class="form-control" rows="5" placeholder="Share your thoughts..." required></textarea>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" id="commentSubmitBtn" class="btn btn-primary-custom px-4">Post Comment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function setReply(parentId, authorName) {
+            document.getElementById('comment-parent-id').value = parentId;
+            document.getElementById('reply-to-name').innerText = authorName;
+            document.getElementById('reply-to-alert').classList.remove('d-none');
+            document.querySelector('#comments').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelReply() {
+            document.getElementById('comment-parent-id').value = '';
+            document.getElementById('reply-to-alert').classList.add('d-none');
+        }
+
+        $(document).ready(function() {
+            $('#commentForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const $btn = $('#commentSubmitBtn');
+                $btn.addClass('btn-loading');
+
+                $.ajax({
+                    url: '?handler=CommentAjax',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thank You!',
+                                text: response.message,
+                                confirmButtonColor: '#007bff'
+                            }).then(() => {
+                                location.reload(); // Reload to see the new comment
+                            });
+                        } else {
+                            $btn.removeClass('btn-loading');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                                confirmButtonColor: '#007bff'
+                            });
+                        }
+                    },
+                    error: function() {
+                        $btn.removeClass('btn-loading');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again later.',
+                            confirmButtonColor: '#007bff'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

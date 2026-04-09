@@ -1,0 +1,130 @@
+@page
+@model BlogAuth.UI.Pages.Blog.CreateModel
+@{
+    ViewData["Title"] = "Create New Post";
+}
+
+<section class="hero-section" style="padding: 6rem 0 4rem;">
+    <div class="container">
+        <h1 class="hero-title animate-fade-in" style="background: var(--dark-bg); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Draft Your Story</h1>
+        <p class="hero-subtitle animate-fade-in delay-100">Share your thoughts, experiences, and knowledge with our community.</p>
+    </div>
+</section>
+
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm border-0 rounded-lg animate-fade-in delay-200">
+                <div class="card-body p-4 p-md-5">
+                    <form id="createPostForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="Post.Title" class="form-label small fw-bold">Post Title</label>
+                            <input asp-for="Post.Title" class="form-control form-control-lg bg-light" placeholder="Enter a catchy title..." required />
+                            <span asp-validation-for="Post.Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Post.CategoryId" class="form-label small fw-bold">Category</label>
+                                <select asp-for="Post.CategoryId" class="form-select bg-light" required>
+                                    <option value="">Select Category</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Post.CategoryId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Post.Slug" class="form-label small fw-bold">Slug (Optional)</label>
+                                <input asp-for="Post.Slug" class="form-control bg-light" placeholder="url-slug-format" />
+                                <span asp-validation-for="Post.Slug" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Post.FeaturedImage" class="form-label small fw-bold">Featured Image URL</label>
+                            <input asp-for="Post.FeaturedImage" class="form-control bg-light" placeholder="https://unsplash.com/..." />
+                            <span asp-validation-for="Post.FeaturedImage" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Post.Excerpt" class="form-label small fw-bold">Excerpt</label>
+                            <textarea asp-for="Post.Excerpt" class="form-control bg-light" rows="3" placeholder="A brief summary for the preview card..."></textarea>
+                            <span asp-validation-for="Post.Excerpt" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Post.Content" class="form-label small fw-bold">Content (Markdown or HTML)</label>
+                            <textarea asp-for="Post.Content" class="form-control bg-light" rows="12" placeholder="Write your masterpiece here..." required></textarea>
+                            <span asp-validation-for="Post.Content" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row align-items-center mt-5">
+                            <div class="col-6">
+                                <a asp-page="/Blog/Index" class="text-decoration-none text-muted fw-semibold">&larr; Back to Blog</a>
+                            </div>
+                            <div class="col-6 text-end">
+                                <button type="submit" id="submitBtn" class="btn btn-primary-custom px-5">Publish Now</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#createPostForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                if (!$(this).valid()) return;
+
+                const $btn = $('#submitBtn');
+                $btn.addClass('btn-loading');
+
+                $.ajax({
+                    url: '?handler=CreateAjax',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message,
+                                confirmButtonColor: '#007bff'
+                            }).then(() => {
+                                window.location.href = response.redirectUrl;
+                            });
+                        } else {
+                            $btn.removeClass('btn-loading');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                                confirmButtonColor: '#007bff'
+                            });
+                        }
+                    },
+                    error: function() {
+                        $btn.removeClass('btn-loading');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again later.',
+                            confirmButtonColor: '#007bff'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+</div>

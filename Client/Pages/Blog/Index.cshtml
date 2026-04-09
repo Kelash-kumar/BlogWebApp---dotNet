@@ -1,0 +1,113 @@
+@page
+@model BlogAuth.UI.Pages.Blog.IndexModel
+@{
+    ViewData["Title"] = "Our Blog";
+}
+
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title animate-fade-in">Explore Our Stories</h1>
+        <p class="hero-subtitle animate-fade-in delay-100">Discover insights, tutorials, and the latest trends in technology and design.</p>
+        
+        <form method="get" class="max-width-md mx-auto animate-fade-in delay-200" style="max-width: 500px;">
+            <div class="input-group mb-3">
+                <input type="text" name="Search" value="@Model.Search" class="form-control bg-white shadow-sm border-0" placeholder="Search articles..." aria-label="Search articles" style="border-radius: var(--radius-md) 0 0 var(--radius-md); padding: 0.75rem 1.5rem;">
+                <button class="btn btn-primary-custom" type="submit" style="border-radius: 0 var(--radius-md) var(--radius-md) 0;">Search</button>
+            </div>
+        </form>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mt-4 animate-fade-in delay-200">
+                <a asp-page="/Blog/Create" class="btn btn-primary-custom">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg me-2" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                    </svg>
+                    Add New Post
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="row g-4">
+        @if (Model.Posts.Data != null && Model.Posts.Data.Any())
+        {
+            @foreach (var post in Model.Posts.Data)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="blog-card">
+                        <a asp-page="/Blog/Details" asp-route-uid="@post.Uid" class="text-decoration-none">
+                            <img src="@(string.IsNullOrEmpty(post.FeaturedImage) ? "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop" : post.FeaturedImage)" class="blog-card-img" alt="@post.Title">
+                        </a>
+                        <div class="blog-card-body d-flex flex-column">
+                            <span class="blog-category">@(post.Category?.Name ?? "General")</span>
+                            <a asp-page="/Blog/Details" asp-route-uid="@post.Uid" class="text-decoration-none">
+                                <h3 class="blog-title">@post.Title</h3>
+                            </a>
+                            <p class="blog-excerpt">@post.Excerpt</p>
+                            <div class="blog-meta mt-auto">
+                                <span class="blog-author-name d-block">@(post.Author?.Name ?? "Guest")</span>
+                                <span class="blog-date">@(post.PublishedAt?.ToString("MMM dd, yyyy") ?? post.CreatedAt?.ToString("MMM dd, yyyy") ?? "Draft")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-search text-muted opacity-25" viewBox="0 0 16 16">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </div>
+                <h3>No posts found</h3>
+                <p class="text-muted">Try adjusting your search or check back later.</p>
+                <a asp-page="/Blog/Index" class="btn btn-outline-primary mt-3">View all posts</a>
+            </div>
+        }
+    </div>
+
+    @if (Model.Posts.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(!Model.Posts.HasPreviousPage ? "disabled" : "")">
+                    <a class="page-link" asp-page="/Blog/Index" asp-route-PageNumber="@(Model.PageNumber - 1)" asp-route-Search="@Model.Search">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.Posts.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" asp-page="/Blog/Index" asp-route-PageNumber="@i" asp-route-Search="@Model.Search">@i</a>
+                    </li>
+                }
+                <li class="page-item @(!Model.Posts.HasNextPage ? "disabled" : "")">
+                    <a class="page-link" asp-page="/Blog/Index" asp-route-PageNumber="@(Model.PageNumber + 1)" asp-route-Search="@Model.Search">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+<style>
+    .pagination .page-link {
+        color: var(--primary-color);
+        border: none;
+        margin: 0 4px;
+        border-radius: var(--radius-md) !important;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    .pagination .page-item.disabled .page-link {
+        background-color: transparent;
+        color: var(--light-text);
+        opacity: 0.5;
+    }
+</style>

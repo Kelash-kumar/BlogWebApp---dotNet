@@ -1,0 +1,85 @@
+@page
+@model BlogAuth.UI.Pages.Auth.RegisterModel
+@{
+    ViewData["Title"] = "Create an Account";
+}
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="bg-white border rounded-4 shadow-lg p-5 animate-fade-in">
+                <div class="text-center mb-5">
+                    <span class="footer-brand mb-2 d-inline-block" style="color: var(--primary-color);">Blog<span style="color: var(--secondary-color);">Auth</span></span>
+                    <h1 class="fw-800 h3 mb-2">Create an account</h1>
+                    <p class="text-muted small">Join our community of modern writers and readers.</p>
+                </div>
+
+                @if (!Model.IsSuccess)
+                {
+                    <form method="post" id="registerForm">
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger border-0 small mb-4" role="alert">
+                                <span class="fw-600">Oops!</span> @Model.ErrorMessage
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Name" class="form-label fw-600 text-dark">Full Name</label>
+                            <input asp-for="Input.Name" class="form-control bg-light border-0 py-3 px-4" placeholder="e.g. John Doe" style="border-radius: var(--radius-md);" />
+                            <span asp-validation-for="Input.Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Email" class="form-label fw-600 text-dark">Email address</label>
+                            <input asp-for="Input.Email" class="form-control bg-light border-0 py-3 px-4" placeholder="name@example.com" style="border-radius: var(--radius-md);" />
+                            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Password" class="form-label fw-600 text-dark">Password</label>
+                            <input asp-for="Input.Password" class="form-control bg-light border-0 py-3 px-4" type="password" placeholder="Min. 6 characters" style="border-radius: var(--radius-md);" />
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.ConfirmPassword" class="form-label fw-600 text-dark">Confirm Password</label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control bg-light border-0 py-3 px-4" type="password" placeholder="Repeat your password" style="border-radius: var(--radius-md);" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                            <label class="form-check-label text-muted small" for="termsCheck">
+                                I agree to the <a asp-page="/Privacy" class="text-primary text-decoration-none fw-600">Terms of Service</a> and Privacy Policy.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom w-100 py-3 mb-4 fw-700"> Create Account </button>
+
+                        <div class="text-center text-muted small">
+                            Already have an account? <a href="#" class="text-primary text-decoration-none fw-700">Sign in</a>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <div class="mb-4">
+                            <div class="bg-success text-white d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                                ✓
+                            </div>
+                            <h2 class="fw-800">Registration successful!</h2>
+                            <p class="text-muted lead px-lg-3">Welcom aboard! Your account has been created successfully. You can now login to start your journey.</p>
+                        </div>
+                        <a href="/Index" class="btn btn-primary-custom w-100 py-3 fw-700">Go to Home</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
