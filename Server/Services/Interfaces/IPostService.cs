@@ -1,4 +1,4 @@
-﻿using AuthDemo.DTOs.PostDtos;
+using AuthDemo.DTOs.PostDtos;
 using AuthDemo.Helpers;
 
 namespace AuthDemo.Services.Interfaces
@@ -13,5 +13,7 @@ namespace AuthDemo.Services.Interfaces
             string? sortBy = "createdAt",
             string? sortOrder = "asc"
             );
+        Task<PostResponseDto> UpdatePost(Guid uid, UpdatePostDto postDto);
+        Task<bool> DeletePost(Guid uid);
     }
 }

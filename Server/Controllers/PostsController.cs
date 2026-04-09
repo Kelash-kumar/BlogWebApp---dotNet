@@ -1,4 +1,4 @@
-﻿using AuthDemo.DTOs.PostDtos;
+using AuthDemo.DTOs.PostDtos;
 using AuthDemo.Helpers;
 using AuthDemo.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -27,22 +27,17 @@ namespace AuthDemo.Controllers
         {
             var result = await _postService.GetAllPostsAsync(paginationParams, search, sortBy, sortDirection);
 
-            return ApiOk(result, "Categories Fecthed Successfulyy.");
+            return ApiOk(result, "Posts Fetched Successfully.");
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreatePostDto dto)
+        public async Task<IActionResult> Create([FromBody] CreatePostDto dto)
         {
 
             if (!ModelState.IsValid)
             {
-                var errors = ModelState
-                                .Where(e => e.Value?.Errors.Count > 0)
-                                .SelectMany(e => e.Value?.Errors)
-                                .Select(e => e.ErrorMessage)
-                                .ToList();
-                return ApiValidationError(errors);
+                return ApiValidationError(ModelState);
             }
 
             var authorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -53,6 +48,19 @@ namespace AuthDemo.Controllers
             return ApiOk(result, "Post Created Successfully");
         }
 
+        [Authorize]
+        [HttpPut("{uid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid uid, [FromBody] UpdatePostDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ApiValidationError(ModelState);
+            }
+
+            var result = await _postService.UpdatePost(uid, dto);
+            return ApiOk(result, "Post Updated Successfully");
+        }
+
         [HttpGet("{uid}")]
         public async Task<IActionResult> GetPostById([FromRoute] Guid uid)
         {
@@ -60,5 +68,12 @@ namespace AuthDemo.Controllers
             return ApiOk(category, "Category fetched successfully");
         }
 
+        [Authorize]
+        [HttpDelete("{uid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid uid)
+        {
+            await _postService.DeletePost(uid);
+            return ApiNoContent("Post Deleted Successfully");
+        }
     }
 }

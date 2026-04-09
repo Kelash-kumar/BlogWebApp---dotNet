@@ -1,4 +1,4 @@
-﻿using AuthDemo.Helpers;
+using AuthDemo.Helpers;
 using AuthDemo.Models;
 
 namespace AuthDemo.Repositories.Interfaces
@@ -14,5 +14,7 @@ namespace AuthDemo.Repositories.Interfaces
             );
         Task<List<string>> GetAllPostSlugsAsync();
         Task<Post> GetPostByIdAsync(Guid uid);
+        Task<Post> UpdatePost(Post post);
+        Task<bool> DeletePost(Guid uid);
     }
 }

@@ -118,5 +118,21 @@ namespace BlogAuth.UI.Pages.Blog
 
             return new JsonResult(new { success = false, message = result.Message });
         }
+        public async Task<JsonResult> OnPostDeleteAjaxAsync(Guid uid)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { success = false, message = "You must be logged in to delete posts." });
+            }
+
+            var result = await _blogService.DeletePostAsync(uid);
+            
+            if (result.Success)
+            {
+                return new JsonResult(new { success = true, message = "Post deleted successfully!", redirectUrl = Url.Page("/Blog/Index") });
+            }
+
+            return new JsonResult(new { success = false, message = result.Message });
+        }
     }
 }

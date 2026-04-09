@@ -1,4 +1,4 @@
-﻿using AuthDemo.Common;
+using AuthDemo.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthDemo.Controllers
@@ -32,5 +32,13 @@ namespace AuthDemo.Controllers
         protected IActionResult ApiValidationError(List<string> errors)
             => StatusCode(422, ApiResponse<object>.ValidationError(errors));
 
+        protected IActionResult ApiValidationError(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
+        {
+            var errors = modelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+            return ApiValidationError(errors);
+        }
     }
 }

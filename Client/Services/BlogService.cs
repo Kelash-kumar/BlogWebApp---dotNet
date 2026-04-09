@@ -83,32 +83,8 @@ namespace BlogAuth.UI.Services
                 var response = await _httpClient.PostAsync($"{_baseUrl}/Posts", content);
                 var responseBody = await response.Content.ReadAsStringAsync();
                 
-                // Parse as JsonDocument to safely inspect the internal structure
-                using var doc = JsonDocument.Parse(responseBody);
-                var root = doc.RootElement;
-                
-                var apiResponse = new ApiResponse<PostResponseDto>
-                {
-                    Success = root.GetProperty("success").GetBoolean(),
-                    Message = root.GetProperty("message").GetString() ?? "",
-                    StatusCode = root.GetProperty("statusCode").GetInt32()
-                };
-
-                if (apiResponse.Success && root.TryGetProperty("data", out var dataElement))
-                {
-                    if (dataElement.ValueKind == JsonValueKind.Object)
-                    {
-                        apiResponse.Data = JsonSerializer.Deserialize<PostResponseDto>(dataElement.GetRawText(), _jsonOptions);
-                    }
-                    else if (dataElement.ValueKind == JsonValueKind.Number)
-                    {
-                        // API returned an ID instead of an object
-                        apiResponse.Data = new PostResponseDto { Id = dataElement.GetInt32() };
-                    }
-                    // If it's null or other type, we leave apiResponse.Data as null
-                }
-
-                return apiResponse;
+                var result = JsonSerializer.Deserialize<ApiResponse<PostResponseDto>>(responseBody, _jsonOptions);
+                return result ?? new ApiResponse<PostResponseDto> { Success = false, Message = "Could not parse API response." };
             }
             catch (Exception ex)
             {
@@ -125,33 +101,29 @@ namespace BlogAuth.UI.Services
                 var response = await _httpClient.PutAsync($"{_baseUrl}/Posts/{uid}", content);
                 var responseBody = await response.Content.ReadAsStringAsync();
 
-                using var doc = JsonDocument.Parse(responseBody);
-                var root = doc.RootElement;
-                
-                var apiResponse = new ApiResponse<PostResponseDto>
-                {
-                    Success = root.GetProperty("success").GetBoolean(),
-                    Message = root.GetProperty("message").GetString() ?? "",
-                    StatusCode = root.GetProperty("statusCode").GetInt32()
-                };
-
-                if (apiResponse.Success && root.TryGetProperty("data", out var dataElement))
-                {
-                    if (dataElement.ValueKind == JsonValueKind.Object)
-                    {
-                        apiResponse.Data = JsonSerializer.Deserialize<PostResponseDto>(dataElement.GetRawText(), _jsonOptions);
-                    }
-                    else if (dataElement.ValueKind == JsonValueKind.Number)
-                    {
-                        apiResponse.Data = new PostResponseDto { Id = dataElement.GetInt32() };
-                    }
-                }
-
-                return apiResponse;
+                var result = JsonSerializer.Deserialize<ApiResponse<PostResponseDto>>(responseBody, _jsonOptions);
+                return result ?? new ApiResponse<PostResponseDto> { Success = false, Message = "Could not parse API response." };
             }
             catch (Exception ex)
             {
                 return new ApiResponse<PostResponseDto> { Success = false, Message = $"Connection Error: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeletePostAsync(Guid uid)
+        {
+            try
+            {
+                AddAuthHeader();
+                var response = await _httpClient.DeleteAsync($"{_baseUrl}/Posts/{uid}");
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var result = JsonSerializer.Deserialize<ApiResponse<object>>(responseBody, _jsonOptions);
+                return result ?? new ApiResponse<object> { Success = false, Message = "Could not parse API response." };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Success = false, Message = $"Connection Error: {ex.Message}" };
             }
         }
 

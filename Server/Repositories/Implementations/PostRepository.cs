@@ -1,4 +1,4 @@
-﻿using AuthDemo.Data;
+using AuthDemo.Data;
 using AuthDemo.Helpers;
 using AuthDemo.Models;
 using AuthDemo.Repositories.Interfaces;
@@ -74,6 +74,23 @@ namespace AuthDemo.Repositories.Implementations
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Uid == uid);
+        }
+
+        public async Task<Post> UpdatePost(Post post)
+        {
+            var updatedPost = _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+            return updatedPost.Entity;
+        }
+
+        public async Task<bool> DeletePost(Guid uid)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Uid == uid);
+            if (post == null) return false;
+
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

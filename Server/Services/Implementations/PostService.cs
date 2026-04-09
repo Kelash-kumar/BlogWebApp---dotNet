@@ -1,4 +1,4 @@
-﻿using AuthDemo.DTOs.PostDtos;
+using AuthDemo.DTOs.PostDtos;
 using AuthDemo.Exceptions;
 using AuthDemo.Helpers;
 using AuthDemo.Models;
@@ -72,6 +72,37 @@ namespace AuthDemo.Services.Implementations
                 PageNumber = pagination.PageNumber,
                 PageSize = pagination.PageSize,
             };
+        }
+
+        public async Task<PostResponseDto> UpdatePost(Guid uid, UpdatePostDto postDto)
+        {
+            var post = await _postRepository.GetPostByIdAsync(uid);
+            if (post == null) throw new NotFoundException("Post Not Found");
+
+            // Update fields
+            post.Title = postDto.Title;
+            post.Content = postDto.Content;
+            post.Excerpt = postDto.Excerpt;
+            post.CategoryId = postDto.CategoryId;
+            post.FeaturedImage = postDto.FeaturedImage;
+            post.UpdatedAt = DateTime.UtcNow;
+
+            // Generate new slug if title changed (optional but common)
+            if (post.Title != postDto.Title)
+            {
+                var existingSlugs = await _postRepository.GetAllPostSlugsAsync();
+                post.Slug = _slugService.GenerateUnique(postDto.Title, existingSlugs);
+            }
+
+            await _postRepository.UpdatePost(post);
+            return MapPostResponseDtos(post);
+        }
+
+        public async Task<bool> DeletePost(Guid uid)
+        {
+            var result = await _postRepository.DeletePost(uid);
+            if (!result) throw new NotFoundException("Post Not Found");
+            return result;
         }
 
         private static PostResponseDto MapPostResponseDtos(Post post)
